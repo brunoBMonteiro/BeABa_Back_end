@@ -14,7 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Template.init({
-    id_template: DataTypes.INTEGER,
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+      type: DataTypes.INTEGER,
+    },
     nome_template: DataTypes.STRING,
     extensao_template: DataTypes.STRING,
     data_cadastrado: DataTypes.DATE,
