@@ -1,15 +1,17 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const cors = require('cors'); 
 
 app.use(express.json());
 
-const TemplateController = require('./controllers/templateController.js');
+app.use(cors());
 
+const templateRoutes = require('./routes/templateRoutes');
+const authRoutes = require('./routes/auth');
 
-app.get('/templates', TemplateController.listarTemplates);
-app.post('/templates', TemplateController.cadastrarTemplate);
-// Não esquecer de Definir as demais rotas aqui.
+app.use('/templates', templateRoutes);
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
