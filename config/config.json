@@ -8,7 +8,7 @@
     "schema": "beaba"
   },
   "test": {
-    "username": "root",
+    "username": "postgres",
     "password": "postgres",
     "database": "postgres",
     "host": "127.0.0.1",
@@ -16,7 +16,7 @@
     "schema": "beaba"
   },
   "production": {
-    "username": "root",
+    "username": "postgres",
     "password": "postgres",
     "database": "postgres",
     "host": "127.0.0.1",

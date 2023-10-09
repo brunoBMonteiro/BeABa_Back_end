@@ -1,5 +1,6 @@
 const { Template } = require('../models');
 
+
 // Cadastrar template
 const cadastrarTemplate = async (req, res) => {
   try {
