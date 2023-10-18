@@ -1,4 +1,4 @@
-const { Template } = require('../models');
+const Template  = require('../models/template.js');
 
 
 // Cadastrar template

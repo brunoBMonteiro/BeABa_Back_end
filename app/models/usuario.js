@@ -1,30 +1,35 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-  class Usuario extends Model {
-    static associate(models) {
-      // define association here
-    }
-  }
-  Usuario.init({
-    id_usuario: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    matricula: DataTypes.INTEGER,
-    email: DataTypes.STRING,
-    senha: DataTypes.STRING,
-    nome_usuario: DataTypes.STRING,
-    foto_url: DataTypes.STRING,
-    perfil_acesso: DataTypes.STRING
-  }, {
-    sequelize,
-    schema: 'beaba',
-    tableName: 'usuarios',
-    modelName: 'usuarios',
-  });
-  return Usuario;
-};
+const { DataTypes } = require('sequelize');
+const sequelize = require('../../config/database');
+
+const Usuario = sequelize.define('Usuario', {
+  id_usuario: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  matricula: {
+    type: DataTypes.INTEGER,
+  },
+  email: {
+    type: DataTypes.STRING,
+  },
+  senha: {
+    type: DataTypes.STRING,
+  },
+  nome_usuario: {
+    type: DataTypes.STRING,
+  },
+  foto_url: {
+    type: DataTypes.STRING,
+  },
+  perfil_acesso: {
+    type: DataTypes.STRING,
+  },
+}, {
+  schema: 'beaba',
+  tableName: 'usuarios',
+  timestamps: true,
+});
+
+
+module.exports = Usuario;
