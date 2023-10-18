@@ -1,4 +1,4 @@
-const Usuario  = require('../models/usuario.js');
+const userServices = require('../services/userServices');
 
 const cadastrarUsuario = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const cadastrarUsuario = async (req, res) => {
       perfil_acesso,
     } = req.body;
 
-    const usuario = await Usuario.create({
+    const usuario = await userServices.cadastrarUsuario({
       matricula,
       email,
       senha,
@@ -33,7 +33,7 @@ const cadastrarUsuario = async (req, res) => {
 
 const listarUsuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.findAll();
+    const usuarios = await userServices.listarUsuarios();
     return res.status(200).json(usuarios);
   } catch (error) {
     console.error('Erro ao listar os usuários:', error);
@@ -47,7 +47,7 @@ const listarUsuarioMatricula = async (req, res) => {
   const matricula = req.params.matricula;
 
   try {
-    const usuario = await Usuario.findOne({ where: { matricula } });
+    const usuario = await userServices.buscarUsuarioPorMatricula(matricula);
 
     if (usuario) {
       res.json(usuario);
@@ -64,14 +64,8 @@ const deletarUsuarioMatricula = async (req, res) => {
   const matricula = req.params.matricula;
 
   try {
-    const usuario = await Usuario.findOne({ where: { matricula } });
-
-    if (usuario) {
-      await usuario.destroy();
-      res.json({ message: 'Usuário excluído com sucesso' });
-    } else {
-      res.status(404).json({ message: 'Usuário não encontrado' });
-    }
+    await userServices.excluirUsuarioPorMatricula(matricula);
+    res.json({ message: 'Usuário excluído com sucesso' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao excluir o usuário' });
@@ -82,32 +76,14 @@ const alterarTipoAcesso = async (req, res) => {
   const { matricula } = req.params;
   const { novoTipoAcesso } = req.body;
 
-  // Lista de tipos de acesso válidos
-  const tiposAcessoValidos = ["Administrador", "Gestor", "Padrão"];
-
-  if (!tiposAcessoValidos.includes(novoTipoAcesso)) {
-    return res.status(400).json({ mensagem: 'Tipo de acesso inválido. Deve ser "Administrador", "Gestor" ou "Padrão".' });
-  }
-
   try {
-    // Verifique se o usuário com a matrícula existe
-    const usuario = await Usuario.findOne({ where: { matricula } });
-
-    if (!usuario) {
-      return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
-    }
-
-    // Atualize o tipo de acesso
-    usuario.perfil_acesso = novoTipoAcesso;
-    await usuario.save();
-
+    await userServices.atualizarTipoAcesso(matricula, novoTipoAcesso);
     res.status(200).json({ mensagem: 'Tipo de acesso atualizado com sucesso.' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ mensagem: 'Erro ao atualizar o tipo de acesso.' });
+    res.status(500).json({ mensagem: 'Erro ao atualizar o tipo de acesso' });
   }
 };
-
 
 module.exports = {
   cadastrarUsuario,
