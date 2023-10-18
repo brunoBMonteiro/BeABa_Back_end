@@ -6,11 +6,14 @@ const {
   listarUsuarios,
   listarUsuarioMatricula,
   deletarUsuarioMatricula,
+  alterarTipoAcesso,
 } = require('../app/controllers/userControllers');
 
 router.post('/cadastrar', cadastrarUsuario);
 router.get('/listar', listarUsuarios);
 router.get('/:matricula', listarUsuarioMatricula);
 router.delete('/:matricula', deletarUsuarioMatricula);
+router.put('/:matricula/tipoacesso', alterarTipoAcesso);
+
 
 module.exports = router;

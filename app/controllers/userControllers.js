@@ -78,9 +78,41 @@ const deletarUsuarioMatricula = async (req, res) => {
   }
 };
 
+const alterarTipoAcesso = async (req, res) => {
+  const { matricula } = req.params;
+  const { novoTipoAcesso } = req.body;
+
+  // Lista de tipos de acesso válidos
+  const tiposAcessoValidos = ["Administrador", "Gestor", "Padrão"];
+
+  if (!tiposAcessoValidos.includes(novoTipoAcesso)) {
+    return res.status(400).json({ mensagem: 'Tipo de acesso inválido. Deve ser "Administrador", "Gestor" ou "Padrão".' });
+  }
+
+  try {
+    // Verifique se o usuário com a matrícula existe
+    const usuario = await Usuario.findOne({ where: { matricula } });
+
+    if (!usuario) {
+      return res.status(404).json({ mensagem: 'Usuário não encontrado.' });
+    }
+
+    // Atualize o tipo de acesso
+    usuario.perfil_acesso = novoTipoAcesso;
+    await usuario.save();
+
+    res.status(200).json({ mensagem: 'Tipo de acesso atualizado com sucesso.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao atualizar o tipo de acesso.' });
+  }
+};
+
+
 module.exports = {
   cadastrarUsuario,
   listarUsuarios,
   listarUsuarioMatricula,
   deletarUsuarioMatricula,
+  alterarTipoAcesso,
 };

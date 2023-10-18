@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const templateController = require('../app/controllers/templateControllers');
+
+const {
+    listarTemplates,
+    getTemplateById,
+    cadastrarTemplate,
+} = require('../app/controllers/templateControllers');
 
 
-// Rota para listar todos os templates
-router.get('/', templateController.listarTemplates);
-
-// Rota para buscar um template por ID
-router.get('/:id', templateController.getTemplateById);
-
-// Rota para cadastrar um novo template
-router.post('/', templateController.cadastrarTemplate);
+router.get('/', listarTemplates);
+router.get('/:id', getTemplateById);
+router.post('/', cadastrarTemplate);
 
 module.exports = router;
