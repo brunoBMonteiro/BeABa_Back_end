@@ -1,9 +1,18 @@
+const bcrypt = require('bcrypt');
 const Usuario = require('../models/usuario.js');
 
 const tiposAcessoValidos = ["Administrador", "Gestor", "Padrão"];
 
+const hashSenha = async (senha) => {
+    const saltRounds = 10;
+    return await bcrypt.hash(senha, saltRounds);
+};
+
 const cadastrarUsuario = async (dadosUsuario) => {
     try {
+        // Hash da senha antes de armazenar no banco de dados
+        dadosUsuario.senha = await hashSenha(dadosUsuario.senha);
+        
         return await Usuario.create(dadosUsuario);
     } catch (error) {
         console.error('Erro ao cadastrar o usuário:', error);

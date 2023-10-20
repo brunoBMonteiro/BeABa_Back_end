@@ -9,10 +9,12 @@ app.use(cors());
 
 const templateRoutes = require('./routes/templateRoutes');
 const userRoutes = require('./routes/userRoutes');
+const loginRoutes = require('./routes/loginRoutes');
 
 
 app.use('/templates', templateRoutes);
 app.use('/usuario', userRoutes);
+app.use('/login', loginRoutes);
 
 
 app.listen(port, () => {
