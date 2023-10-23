@@ -1,4 +1,6 @@
 const Template = require('../models/template');
+const Usuario = require('../models/usuario');
+
 
 async function cadastrarTemplate(templateData) {
   try {
@@ -11,16 +13,33 @@ async function cadastrarTemplate(templateData) {
 
 async function listarTemplates() {
   try {
-    const templates = await Template.findAll();
+    const templates = await Template.findAll({
+      include: [
+        {
+          model: Usuario,
+          as: 'usuario',
+          attributes: ['matricula', 'email'],
+        },
+      ],
+    });
     return templates;
   } catch (error) {
-    throw new Error('Erro ao listar os templates');
+    throw new Error('Erro ao listar os templates: ' + error.message);
   }
 }
 
+
 async function getTemplateById(id) {
   try {
-    const template = await Template.findByPk(id);
+    const template = await Template.findByPk(id, {
+      include: [
+        {
+          model: Usuario,
+          as: 'usuario',
+          attributes: ['matricula', 'email'],
+        },
+      ],
+    });
 
     if (!template) {
       throw new Error('Template não encontrado');
@@ -28,9 +47,10 @@ async function getTemplateById(id) {
 
     return template;
   } catch (error) {
-    throw new Error('Erro ao obter o template por ID');
+    throw new Error('Erro ao obter o template por ID: ' + error.message);
   }
 }
+
 
 module.exports = {
   cadastrarTemplate,

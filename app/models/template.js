@@ -1,6 +1,7 @@
 'use strict';
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../config/database');
+const Usuario = require('./usuario'); // Importando a model Usuario
 
 const Template = sequelize.define('Template', {
   id_template: {
@@ -28,6 +29,7 @@ const Template = sequelize.define('Template', {
   },
   id_usuario_cadastrado: {
     type: DataTypes.INTEGER,
+    references: { model: 'Usuario', key: 'id_usuario' } // Referência à chave estrangeira
   },
 }, {
   sequelize,
@@ -35,6 +37,12 @@ const Template = sequelize.define('Template', {
   tableName: 'templates',
   modelName: 'Template',
   timestamps: false,
+});
+
+// Definindo a associação com a model Usuario
+Template.belongsTo(Usuario, {
+  foreignKey: 'id_usuario_cadastrado',
+  as: 'usuario'
 });
 
 module.exports = Template;
