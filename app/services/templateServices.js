@@ -1,7 +1,6 @@
 const Template = require('../models/template');
 const Usuario = require('../models/usuario');
 
-
 async function cadastrarTemplate(templateData) {
   try {
     const template = await Template.create(templateData);
@@ -28,7 +27,6 @@ async function listarTemplates() {
   }
 }
 
-
 async function getTemplateById(id) {
   try {
     const template = await Template.findByPk(id, {
@@ -50,7 +48,6 @@ async function getTemplateById(id) {
     throw new Error('Erro ao obter o template por ID: ' + error.message);
   }
 }
-
 
 module.exports = {
   cadastrarTemplate,

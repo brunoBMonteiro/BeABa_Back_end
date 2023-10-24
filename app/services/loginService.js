@@ -25,14 +25,29 @@ const gerarToken = (usuario) => {
 };
 
 const hashSenha = async (senha) => {
-    const saltRounds = 10;
-    return await bcrypt.hash(senha, saltRounds);
+  const saltRounds = 10;
+  return await bcrypt.hash(senha, saltRounds);
 };
 
+const decodificarToken = (token) => {
+  try {
+    return jwt.verify(token, 'seuSegredo');
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+const obterIdUsuarioDoToken = (token) => {
+  const decoded = decodificarToken(token);
+  return decoded.id;
+};
 
 module.exports = {
   verificarUsuario,
   verificarSenha,
   gerarToken,
-  hashSenha
+  hashSenha,
+  decodificarToken,
+  obterIdUsuarioDoToken
 };

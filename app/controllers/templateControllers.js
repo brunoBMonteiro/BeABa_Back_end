@@ -1,7 +1,28 @@
+const jwt = require('jsonwebtoken');
 const templateService = require('../services/templateServices');
+
+// Função para obter o ID do usuário do token
+function getUserIdFromToken(token) {
+  try {
+    const decodedToken = jwt.verify(token, 'seuSegredo');
+    return decodedToken.id;
+  } catch (error) {
+    return null;
+  }
+}
 
 async function cadastrarTemplate(req, res) {
   const templateData = req.body;
+
+  // O ID do usuário é definido pelo middleware e anexado ao objeto req
+  const userId = req.userId;
+  
+  if (!userId) {
+    return res.status(401).json({ mensagem: 'Token inválido' });
+  }
+
+  // Anexe o ID do usuário ao objeto templateData
+  templateData.id_usuario_cadastrado = userId;
 
   try {
     const template = await templateService.cadastrarTemplate(templateData);
