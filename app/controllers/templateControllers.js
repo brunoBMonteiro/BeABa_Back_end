@@ -1,7 +1,6 @@
 const templateService = require('../services/templateServices');
 
 async function cadastrarTemplate(req, res) {
-  console.log("Executing cadastrarTemplate with data:", req.body);
   const templateData = req.body;
 
   // O ID do usuário é definido pelo middleware e anexado ao objeto req

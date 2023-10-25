@@ -1,4 +1,3 @@
-// config/database.js
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('postgres', 'postgres', 'postgres', {
