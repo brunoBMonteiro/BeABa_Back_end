@@ -1,24 +1,28 @@
 const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
-function authenticateJWT(req, res, next) {
+console.log("JWT_SECRET no middleware:", JWT_SECRET); // Log para confirmar o valor de JWT_SECRET
+
+function verificarJWT(req, res, next) {
     const authHeader = req.headers.authorization;
+
+    console.log("Header de autorização recebido:", authHeader); // Log do header de autorização
 
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
-        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        jwt.verify(token, JWT_SECRET, (err, user) => {
             if (err) {
-                // Melhorando a resposta de erro
-                return res.status(403).json({ error: 'Token inválido ou expirado' });
+                console.error("Erro na verificação do token:", err); // Log do erro
+                return res.status(401).json({ error: 'Token inválido ou expirado' });
             }
-
+            console.log("Usuário do token:", user); // Log do usuário decodificado do token
             req.user = user;
             next();
         });
     } else {
-        // Melhorando a resposta de erro
-        res.status(401).json({ error: 'Token não fornecido' });
+        return res.status(401).json({ error: 'Token não fornecido' });
     }
 }
 
-module.exports = authenticateJWT;
+module.exports = verificarJWT;

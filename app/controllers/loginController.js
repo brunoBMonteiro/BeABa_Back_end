@@ -1,5 +1,5 @@
-const Usuario = require('../models/usuario');
 const loginService = require('../services/loginService');
+const authService = require('../services/authService');
 
 const fazerLogin = async (req, res) => {
   const { email, senha } = req.body;
@@ -17,7 +17,7 @@ const fazerLogin = async (req, res) => {
       return res.status(401).json({ mensagem: 'E-mail ou senha inválidos' });
     }
 
-    const token = loginService.gerarToken(usuario);
+    const token = authService.gerarToken(usuario);
 
     return res.status(200).json({ mensagem: 'Login bem-sucedido', token, perfil: usuario.perfil_acesso });
   } catch (error) {

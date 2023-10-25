@@ -3,51 +3,46 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const verificarUsuario = async (email) => {
-  try {
-    return await Usuario.findOne({ where: { email } });
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+    try {
+        return await Usuario.findOne({ where: { email } });
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
 };
 
-const verificarSenha = async (senha, hashSenha) => {
+const verificarSenha = async (senhaTextoPlano, senhaHashed) => {
   try {
-    return await bcrypt.compare(senha, hashSenha);
+      return await bcrypt.compare(senhaTextoPlano, senhaHashed);
   } catch (error) {
-    console.error(error);
-    throw error;
+      console.error(error);
+      throw error;
   }
-};
-
-const gerarToken = (usuario) => {
-  return jwt.sign({ id: usuario.id, perfil_acesso: usuario.perfil_acesso }, 'seuSegredo');
 };
 
 const hashSenha = async (senha) => {
-  const saltRounds = 10;
-  return await bcrypt.hash(senha, saltRounds);
+    const saltRounds = 10;
+    return await bcrypt.hash(senha, saltRounds);
 };
 
 const decodificarToken = (token) => {
-  try {
-    return jwt.verify(token, 'seuSegredo');
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
+    try {
+        return jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
 };
 
 const obterIdUsuarioDoToken = (token) => {
-  const decoded = decodificarToken(token);
-  return decoded.id;
+    const decoded = decodificarToken(token);
+    return decoded.id;
 };
 
 module.exports = {
-  verificarUsuario,
-  verificarSenha,
-  gerarToken,
-  hashSenha,
-  decodificarToken,
-  obterIdUsuarioDoToken
+    verificarUsuario,
+    verificarSenha,
+    hashSenha,
+    decodificarToken,
+    obterIdUsuarioDoToken
 };
