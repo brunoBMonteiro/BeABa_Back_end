@@ -19,7 +19,12 @@ const fazerLogin = async (req, res) => {
 
     const token = authService.gerarToken(usuario);
 
-    return res.status(200).json({ mensagem: 'Login bem-sucedido', token, perfil: usuario.perfil_acesso });
+    return res.status(200).json({ 
+      mensagem: 'Login bem-sucedido', 
+      token, 
+      perfil: usuario.perfil_acesso, 
+      nome: usuario.nome_usuario 
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ erro: 'Ocorreu um erro durante o login' });
