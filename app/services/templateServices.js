@@ -57,9 +57,9 @@ async function atualizarStatusTemplate(id, status) {
       throw new Error('Template não encontrado');
     }
 
-    if (status === "ativo") {
+    if (status === "Ativo") {
       template.status = true;
-    } else if (status === "inativo") {
+    } else if (status === "Inativo") {
       template.status = false;
     } else {
       throw new Error('O status fornecido é inválido. Deve ser "ativo" ou "inativo"');
