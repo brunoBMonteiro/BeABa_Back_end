@@ -49,8 +49,34 @@ async function getTemplateById(id) {
   }
 }
 
+async function atualizarStatusTemplate(id, status) {
+  try {
+    const template = await Template.findByPk(id);
+
+    if (!template) {
+      throw new Error('Template não encontrado');
+    }
+
+    if (status === "ativo") {
+      template.status = true;
+    } else if (status === "inativo") {
+      template.status = false;
+    } else {
+      throw new Error('O status fornecido é inválido. Deve ser "ativo" ou "inativo"');
+    }
+
+    await template.save();
+    return template;
+
+  } catch (error) {
+    throw new Error('Erro ao atualizar o status do template: ' + error.message);
+  }
+}
+
+
 module.exports = {
   cadastrarTemplate,
   listarTemplates,
   getTemplateById,
+  atualizarStatusTemplate,
 };

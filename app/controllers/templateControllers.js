@@ -44,8 +44,22 @@ async function getTemplateById(req, res) {
   }
 }
 
+async function atualizarStatusTemplate(req, res) {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  try {
+    const templateAtualizado = await templateService.atualizarStatusTemplate(id, status);
+    return res.json({ mensagem: 'Status atualizado com sucesso', template: templateAtualizado });
+  } catch (error) {
+    console.error('Erro ao atualizar o status do template, verifique se o ID está correto:', error);
+    return res.status(500).json({ erro: error.message });
+  }
+}
+
 module.exports = {
   cadastrarTemplate,
   listarTemplates,
   getTemplateById,
+  atualizarStatusTemplate,
 };
