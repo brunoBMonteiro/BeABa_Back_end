@@ -10,7 +10,7 @@ const {
 } = require('../app/controllers/userControllers');
 
 router.post('/cadastrar', cadastrarUsuario);
-router.get('/listar', listarUsuarios);
+router.get('/listarTodos', listarUsuarios);
 router.get('/:matricula', listarUsuarioMatricula);
 router.delete('/:matricula', deletarUsuarioMatricula);
 router.patch('/:matricula/tipoacesso', alterarTipoAcesso);
