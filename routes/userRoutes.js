@@ -13,7 +13,7 @@ router.post('/cadastrar', cadastrarUsuario);
 router.get('/listar', listarUsuarios);
 router.get('/:matricula', listarUsuarioMatricula);
 router.delete('/:matricula', deletarUsuarioMatricula);
-router.put('/:matricula/tipoacesso', alterarTipoAcesso);
+router.patch('/:matricula/tipoacesso', alterarTipoAcesso);
 
 
 module.exports = router;
