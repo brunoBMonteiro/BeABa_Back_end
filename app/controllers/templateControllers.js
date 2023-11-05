@@ -57,9 +57,26 @@ async function atualizarStatusTemplate(req, res) {
   }
 }
 
+async function downloadTemplateController(req, res) {
+  try {
+    const { id } = req.params;
+    const { jsonData, fileName, fileExtension } = await templateService.downloadTemplate(id);
+
+    // Configura a resposta como JSON
+    res.json({
+      data: jsonData,
+      fileName: fileName,
+      fileExtension: fileExtension,
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
 module.exports = {
   cadastrarTemplate,
   listarTemplates,
   getTemplateById,
   atualizarStatusTemplate,
+  downloadTemplateController,
 };

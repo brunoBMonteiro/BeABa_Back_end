@@ -1,5 +1,8 @@
 const Template = require('../models/template');
 const Usuario = require('../models/usuario');
+const { Parser }  = require('json2csv');
+const XLSX = require('xlsx');
+
 
 async function cadastrarTemplate(templateData) {
   try {
@@ -73,10 +76,34 @@ async function atualizarStatusTemplate(id, status) {
   }
 }
 
+async function downloadTemplate(id) {
+  try {
+    const template = await Template.findByPk(id, {
+      attributes: ['nome_template', 'extensao_template', 'campos_template']
+    });
+
+    if (!template) {
+      throw new Error('Template não encontrado');
+    }
+
+    // Converte os campos para JSON
+    const jsonData = template.campos_template;
+
+    return {
+      jsonData,
+      fileName: template.nome_template,
+      fileExtension: template.extensao_template,
+    };
+  } catch (error) {
+    throw new Error('Erro ao baixar o template: ' + error.message);
+  }
+}
+
 
 module.exports = {
   cadastrarTemplate,
   listarTemplates,
   getTemplateById,
   atualizarStatusTemplate,
+  downloadTemplate,
 };

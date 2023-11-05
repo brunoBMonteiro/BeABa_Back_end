@@ -7,6 +7,7 @@ const {
     getTemplateById,
     cadastrarTemplate,
     atualizarStatusTemplate,
+    downloadTemplateController,
 } = require('../app/controllers/templateControllers');
 
 
@@ -15,5 +16,6 @@ router.get('/', listarTemplates);
 router.get('/:id', getTemplateById);
 router.post('/', verificarJWT, cadastrarTemplate);
 router.patch('/:id/status', verificarJWT, atualizarStatusTemplate);
+router.get('/:id/download', downloadTemplateController);
 
 module.exports = router;
