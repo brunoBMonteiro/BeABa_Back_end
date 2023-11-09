@@ -23,7 +23,8 @@ const fazerLogin = async (req, res) => {
       mensagem: 'Login bem-sucedido', 
       token, 
       perfil: usuario.perfil_acesso, 
-      nome: usuario.nome_usuario 
+      nome: usuario.nome_usuario,
+      foto: usuario.foto_url
     });
   } catch (error) {
     console.error(error);
